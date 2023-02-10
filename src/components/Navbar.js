@@ -6,7 +6,7 @@ function Navbar() {
       <nav className="navbar navbar-expand-lg bg-info">
         <div className="container">
           <a className="navbar-brand" href="/">
-            Navbar
+            REACT API
           </a>
           <button
             className="navbar-toggler"
