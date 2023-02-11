@@ -1,14 +1,14 @@
 
 import Navbar from './components/Navbar';
-// import Quote from './components/Quote';
-import Product from './components/Product';
+// import Product from './components/Product';
+import Quote from './components/Quote';
 
 function App() {
   return (
     <>
      <Navbar/>
-     {/* <Quote/> */}
-     <Product/>
+     {/* <Product/> */}
+     <Quote/>
     </>
   );
 }
