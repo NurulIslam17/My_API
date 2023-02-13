@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// const baseURL = "https://dummyjson.com/quotes/{}";
+import Spinner from "./Spinner";
 
 function Quote() {
   const [quote, setQuote] = useState(null);
@@ -15,11 +15,11 @@ function Quote() {
   const [quoteId, setQuoteId] = useState(1);
 
   const handleQuote = () => {
-    setIsLoading(true);
+    
     setQuoteId(getRandom);
     axios.get(`https://dummyjson.com/quotes/${quoteId}`).then((response) => {
+      setIsLoading(false);
       setQuote(response.data);
-      // console.log(response.data);
     });
     setIsLoading(true);
   };
@@ -27,9 +27,10 @@ function Quote() {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`https://dummyjson.com/quotes/${quoteId}`).then((response) => {
+      setIsLoading(false);
       setQuote(response.data);
     });
-    setIsLoading(false);
+    setIsLoading(true);
   }, []);
 
   return (
@@ -40,19 +41,17 @@ function Quote() {
           <div className="col-md-6 bg-secondary mx-auto">
             <h3 className="text-center pt-2 text-light">Favourite Quotes</h3>
             <hr className="b-light" />
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+            {isLoading && <Spinner />}
             <div>
-              {quote && <p className=" text-light">{quote.quote}</p>}
-
+              {quote && !isLoading && <p className=" text-light">{quote.quote}</p>}
               <div className="btnDiv d-flex justify-content-end">
                 <p className="text-light">
-                  {" "}
-                  ------ {quote && quote.author} ----{" "}
+                {isLoading && <Spinner />}
+                  ------ {quote && !isLoading &&  quote.author} ----
                 </p>
               </div>
             </div>
+
             <div className="btnDiv d-flex justify-content-center">
               <button
                 onClick={handleQuote}
