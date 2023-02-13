@@ -1,39 +1,65 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+// const baseURL = "https://dummyjson.com/quotes/{}";
 
 function Quote() {
-  // https://dummyjson.com/quotes
   const [quote, setQuote] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getRandom = () => {
+    let number = Math.floor(Math.random() * 30) + 1;
+    return number;
+  };
+
+  const [quoteId, setQuoteId] = useState(1);
+
+  const handleQuote = () => {
+    setIsLoading(true);
+    setQuoteId(getRandom);
+    axios.get(`https://dummyjson.com/quotes/${quoteId}`).then((response) => {
+      setQuote(response.data);
+      // console.log(response.data);
+    });
+    setIsLoading(true);
+  };
 
   useEffect(() => {
-    fetch("https://dummyjson.com/quotes")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setQuote(data);
-        console.log(quote);
-      });
-  },quote);
+    setIsLoading(true);
+    axios.get(`https://dummyjson.com/quotes/${quoteId}`).then((response) => {
+      setQuote(response.data);
+    });
+    setIsLoading(false);
+  }, []);
 
   return (
+    // {quote && <p>{quote.id}</p> }
     <>
       <div className="container">
         <div className="row mt-5">
           <div className="col-md-6 bg-secondary mx-auto">
-            <h3 className="text-center pt-2 text-light">Your Favourite Quote</h3>
-            <hr className="b-light"/>
-            <p className=" text-light">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ali quam
-              velit nulla, odio mollitia sint consectetur minus perferendis
-              autem amet natus eos est a tque. Dolore id, esse eligendi
-              quibusdam quam sed!
-            </p>
+            <h3 className="text-center pt-2 text-light">Favourite Quotes</h3>
+            <hr className="b-light" />
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div>
+              {quote && <p className=" text-light">{quote.quote}</p>}
 
-            <div className="btnDiv d-flex justify-content-end">
-              <p className="text-light"> ------ ernest Hemingwaya ---- </p>
+              <div className="btnDiv d-flex justify-content-end">
+                <p className="text-light">
+                  {" "}
+                  ------ {quote && quote.author} ----{" "}
+                </p>
+              </div>
             </div>
             <div className="btnDiv d-flex justify-content-center">
-              <button className="btn btn-light text-dark btn-sm m-2">Change Quetes</button>
+              <button
+                onClick={handleQuote}
+                className="btn btn-light text-dark btn-sm m-2"
+              >
+                Change Quetes
+              </button>
             </div>
           </div>
         </div>
