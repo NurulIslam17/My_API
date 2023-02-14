@@ -31,7 +31,7 @@ function Quote() {
       setQuote(response.data);
     });
     setIsLoading(true);
-  }, []);
+  },[]);
 
   return (
     // {quote && <p>{quote.id}</p> }
@@ -45,9 +45,9 @@ function Quote() {
             <div>
               {quote && !isLoading && <p className=" text-light">{quote.quote}</p>}
               <div className="btnDiv d-flex justify-content-end">
-                <p className="text-light">
-                {isLoading && <Spinner />}
-                  ------ {quote && !isLoading &&  quote.author} ----
+              {isLoading && <Spinner />}
+              <p className="text-light">
+                  ---{quote && !isLoading &&  quote.author}---
                 </p>
               </div>
             </div>

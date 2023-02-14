@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Product = () => {
   const [product, setProduct] = useState([]);
 
-  useEffect(()=>{
-    fetch("https://dummyjson.com/products").then((response)=>{
-      return response.json();
-    }).then((data)=>{
-      setProduct(data);
-      console.log(product);
-    })
-  },[]);
-
+  useEffect(() => {
+    axios.get("https://dummyjson.com/products").then((response) => {
+      setProduct(response.data);
+    });
+  }, []);
 
   return (
     <>
-      <div className="container">
-        <div className="row mt-5">
-          <div className="col-md-6 bg-warning mx-auto">
-            <h3 className="text-center py-2">Product</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
+      <h3 className="text-center py-2">Product</h3>
+      {product &&
+        product.map((product) => {
+          return <p key={product.id}> {product.title} </p>;
+        })}
     </>
   );
 };
